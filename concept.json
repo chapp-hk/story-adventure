@@ -1,0 +1,119 @@
+{
+  "story": {
+    "id": "enchanted-forest-01",
+    "title": "The Enchanted Forest",
+    "ageRange": "6-10",
+    "estimatedMinutes": 25,
+    "themes": ["bravery", "friendship", "problem-solving"],
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "The Edge of the Woods",
+        "content": "You stand at the edge of a mysterious forest. The trees seem to whisper secrets. A narrow path winds into the darkness, but you also notice a bright clearing to the right where you hear laughter.",
+        "audioFile": "ch1_enchanted_forest.mp3",
+        "choices": [
+          {
+            "id": "c1a",
+            "text": "Take the dark path into the woods",
+            "nextChapterId": "ch2a",
+            "comprehensionQuestion": {
+              "question": "Why might the dark path be risky?",
+              "options": [
+                "It could be scary",
+                "It could be dangerous",
+                "It could be too long"
+              ],
+              "correctIndex": 1
+            }
+          },
+          {
+            "id": "c1b",
+            "text": "Walk toward the bright clearing",
+            "nextChapterId": "ch2b"
+          }
+        ],
+        "puzzle": {
+          "type": "pattern",
+          "prompt": "Complete the pattern: 🌲 🍄 🌲 🍄 ?",
+          "options": ["🌲", "🍄", "🌻", "🦊"],
+          "correctIndex": 1,
+          "reward": "storyGem"
+        }
+      },
+      {
+        "id": "ch2a",
+        "title": "The Whispering Trees",
+        "content": "The path grows darker. Suddenly, a small fox with glowing eyes appears! 'Help me,' it says, 'I've lost my family. Will you help me find them?'",
+        "character": "fox",
+        "audioFile": "ch2a_enchanted_forest.mp3",
+        "choices": [
+          {
+            "id": "c2a1",
+            "text": "Yes, I'll help you!",
+            "nextChapterId": "ch3a"
+          },
+          {
+            "id": "c2a2",
+            "text": "I'm not sure... I need to find my way first",
+            "nextChapterId": "ch3b"
+          }
+        ]
+      },
+      {
+        "id": "ch2b",
+        "title": "The Fairy Village",
+        "content": "The clearing is full of tiny glowing fairies! They welcome you warmly. 'Welcome, traveler! Will you help us with a task? A dragon has taken our precious gem.'",
+        "character": "fairy_queen",
+        "audioFile": "ch2b_enchanted_forest.mp3",
+        "choices": [
+          {
+            "id": "c2b1",
+            "text": "Of course! I love adventures!",
+            "nextChapterId": "ch3c"
+          },
+          {
+            "id": "c2b2",
+            "text": "What will I get if I help?",
+            "nextChapterId": "ch3d"
+          }
+        ]
+      },
+      {
+        "id": "ch3a",
+        "title": "The Fox's Family",
+        "content": "You and the fox search the forest. After solving puzzles and following clues, you find a den with three fluffy kits! The fox family is reunited!",
+        "ending": true,
+        "moral": "Helping others brings unexpected joy.",
+        "audioFile": "ch3a_enchanted_forest.mp3",
+        "rewards": ["storyGem", "fox_companion_unlocked"]
+      },
+      {
+        "id": "ch3b",
+        "title": "Alone in the Dark",
+        "content": "You wander alone and get lost. Eventually you find your way out, but you wonder what would have happened if you had helped. Sometimes trying is what matters most.",
+        "ending": true,
+        "moral": "It's okay to be careful, but don't be too scared to try.",
+        "audioFile": "ch3b_enchanted_forest.mp3",
+        "rewards": ["storyGem"]
+      },
+      {
+        "id": "ch3c",
+        "title": "The Dragon's Cave",
+        "content": "You journey to the mountain, outsmart the dragon with cleverness (not fighting!), and retrieve the gem. The fairies celebrate you as a hero!",
+        "ending": true,
+        "moral": "Brains beat brawn. Solving problems creatively is true bravery.",
+        "audioFile": "ch3c_enchanted_forest.mp3",
+        "rewards": ["storyGem", "bravery_badge"]
+      },
+      {
+        "id": "ch3d",
+        "title": "The Selfish Choice",
+        "content": "The fairies look at each other disappointedly. 'We help because it's right,' they say. You leave with a gem, but feel empty inside. There's always another way.",
+        "ending": true,
+        "moral": "True reward comes from generosity, not selfishness.",
+        "audioFile": "ch3d_enchanted_forest.mp3",
+        "rewards": ["storyGem"]
+      }
+    ]
+  }
+}
