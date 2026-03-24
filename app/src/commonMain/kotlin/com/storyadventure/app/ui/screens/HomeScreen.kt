@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.storyadventure.app.ui.screens
 
 import androidx.compose.foundation.background
@@ -17,8 +19,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.storyadventure.app.data.Story
+import com.storyadventure.app.data.getSampleStories
+import com.storyadventure.app.ui.theme.StoryAdventureTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     stories: List<Story>,
