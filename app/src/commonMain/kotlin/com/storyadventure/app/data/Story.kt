@@ -19,9 +19,7 @@ data class Story(
 data class Chapter(
     val id: String,
     val title: String,
-    val scenes: List<Scene>,
-    val quiz: Quiz? = null,
-    val puzzle: Puzzle? = null
+    val scenes: List<Scene>
 )
 
 @Serializable
@@ -43,27 +41,18 @@ data class Choice(
 
 @Serializable
 data class Quiz(
+    val id: String,
     val question: String,
     val options: List<String>,
-    val correctIndex: Int,
+    val correctAnswer: Int,
     val explanation: String
 )
 
 @Serializable
 data class Puzzle(
-    val type: String, // "pattern", "sequence", "riddle"
+    val id: String,
     val question: String,
     val answer: String,
-    val hint: String? = null
-)
-
-@Serializable
-data class StoryProgress(
-    val storyId: String,
-    val currentChapterId: String,
-    val currentSceneId: String,
-    val choicesMade: List<String> = emptyList(),
-    val gems: Int = 0,
-    val unlockedEndings: List<String> = emptyList(),
-    val completedChapters: List<String> = emptyList()
+    val hint: String,
+    val rewardGems: Int
 )

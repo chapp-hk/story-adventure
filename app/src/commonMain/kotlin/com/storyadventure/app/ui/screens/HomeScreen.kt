@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
@@ -22,10 +23,14 @@ import com.storyadventure.app.data.Story
 import com.storyadventure.app.data.getSampleStories
 import com.storyadventure.app.ui.theme.StoryAdventureTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     stories: List<Story>,
-    onStoryClick: (Story) -> Unit
+    gems: Int,
+    achievementsCount: Int,
+    onStoryClick: (Story) -> Unit,
+    onAchievementsClick: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -36,9 +41,44 @@ fun HomeScreen(
                         fontWeight = FontWeight.Bold
                     ) 
                 },
+                actions = {
+                    // Gems counter
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Icon(
+                            Icons.Default.Star,
+                            contentDescription = "Gems",
+                            tint = MaterialTheme.colorScheme.secondary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            text = "$gems",
+                            style = MaterialTheme.typography.labelLarge
+                        )
+                    }
+                    // Achievements button
+                    IconButton(onClick = onAchievementsClick) {
+                        BadgedBox(
+                            badge = {
+                                if (achievementsCount > 0) {
+                                    Badge { Text("$achievementsCount") }
+                                }
+                            }
+                        ) {
+                            Icon(
+                                Icons.Default.Star,
+                                contentDescription = "Achievements"
+                            )
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
