@@ -1,9 +1,12 @@
 package com.storyadventure.app
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import com.storyadventure.app.data.*
@@ -19,6 +22,18 @@ enum class Screen {
 
 @Composable
 fun App() {
+    val isLoading by GameStorage.isLoading.collectAsState()
+    
+    if (isLoading) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+        return
+    }
+    
     var currentScreen by remember { mutableStateOf(Screen.HOME) }
     var selectedStory by remember { mutableStateOf<Story?>(null) }
     var currentChapterIndex by remember { mutableIntStateOf(0) }
@@ -47,8 +62,10 @@ fun App() {
                 achievementsCount = achievements.count { it.isUnlocked },
                 onStoryClick = { story ->
                     selectedStory = story
-                    currentChapterIndex = 0
-                    currentSceneIndex = 0
+                    // Load saved progress or start fresh
+                    val savedProgress = GameStorage.getStoryProgress(story.id)
+                    currentChapterIndex = savedProgress?.currentChapterIndex ?: 0
+                    currentSceneIndex = savedProgress?.currentSceneIndex ?: 0
                     currentScreen = Screen.READER
                 },
                 onAchievementsClick = {
@@ -81,10 +98,29 @@ fun App() {
                     currentSceneIndex = currentSceneIndex,
                     gems = gems,
                     onBack = {
+                        // Save progress before leaving
+                        selectedStory?.let { story ->
+                            GameStorage.saveStoryProgress(
+                                storyId = story.id,
+                                chapterIndex = currentChapterIndex,
+                                sceneIndex = currentSceneIndex,
+                                completedSceneId = scene?.id
+                            )
+                        }
                         currentScreen = Screen.HOME
                         selectedStory = null
                     },
                     onChoiceSelected = { choice ->
+                        // Save current scene as completed before moving on
+                        scene?.let { currentScene ->
+                            GameStorage.saveStoryProgress(
+                                storyId = story.id,
+                                chapterIndex = currentChapterIndex,
+                                sceneIndex = currentSceneIndex,
+                                completedSceneId = currentScene.id
+                            )
+                        }
+                        
                         val nextSceneIndex = chapter?.scenes?.indexOfFirst { it.id == choice.targetSceneId } ?: -1
                         
                         if (nextSceneIndex >= 0) {
@@ -98,7 +134,8 @@ fun App() {
                                 currentChapterIndex++
                                 currentSceneIndex = 0
                             } else {
-                                // Story completed
+                                // Story completed - clear progress and increment count
+                                GameStorage.clearStoryProgress(story.id)
                                 GameStorage.incrementStoriesCompleted()
                                 currentScreen = Screen.HOME
                                 selectedStory = null
