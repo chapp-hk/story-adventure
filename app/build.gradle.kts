@@ -19,6 +19,12 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     
+    // Web target
+    js {
+        browser()
+        binaries.executable()
+    }
+    
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -30,6 +36,9 @@ kotlin {
                 
                 // Serialization for story JSON
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+                
+                // Coroutines for async storage
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
             }
         }
         val androidMain by getting {
